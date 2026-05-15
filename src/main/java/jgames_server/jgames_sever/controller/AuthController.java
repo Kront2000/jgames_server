@@ -40,11 +40,9 @@ public class AuthController {
 
     @PostMapping("/login")
     public ResponseEntity<String> login(@RequestBody AuthRequest req) {
-        Player player = playerRepository.findByName(req.username).get();
-        if (player != null && passwordEncoder.matches(req.password, player.getPassword())) {
-            String token = jwtService.generateToken(player.getName());
-            return ResponseEntity.ok(token);
-        }
-        return ResponseEntity.status(401).body("Bad credentials");
+        return playerRepository.findByName(req.username)
+                .filter(player -> passwordEncoder.matches(req.password, player.getPassword()))
+                .map(player -> ResponseEntity.ok(jwtService.generateToken(player.getName())))
+                .orElse(ResponseEntity.status(401).body("Bad credentials"));
     }
 }
