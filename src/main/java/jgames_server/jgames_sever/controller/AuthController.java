@@ -43,6 +43,6 @@ public class AuthController {
         return playerRepository.findByName(req.username)
                 .filter(player -> passwordEncoder.matches(req.password, player.getPassword()))
                 .map(player -> ResponseEntity.ok(jwtService.generateToken(player.getName())))
-                .orElse(ResponseEntity.status(401).body("Bad credentials"));
+                .orElse(ResponseEntity.status(401).body("Неправильный логин или пароль!"));
     }
 }

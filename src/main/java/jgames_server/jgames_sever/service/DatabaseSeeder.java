@@ -16,7 +16,7 @@ public class DatabaseSeeder implements CommandLineRunner {
 
     @Override
     public void run(String... args) {
-        List<String> gameNames = List.of("Breakout", "Flappy Bird", "Snake", "Pacman", "Minesweeper");
+        List<String> gameNames = List.of("Breakout", "FlappyBird", "Snake", "Pacman", "Minesweeper");
 
         gameNames.forEach(name -> {
             if (gameRepository.findByName(name).isEmpty()) {
